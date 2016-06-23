@@ -50,9 +50,9 @@ module Printer
          BOTTOM
     DESC
 
-    print_cell(@cube.first, offset: 16, bottom: false)
+    print_cell(@cube.last, offset: 16, bottom: false)
     print_cells(@cube)
-    print_cell(@cube.last, offset: 16)
+    print_cell(@cube.first, offset: 16)
   end
 
   def inspect_cube

@@ -44,8 +44,8 @@ class Cube
     bottom, *middle, top = @cube
 
     middle = case dir
-      when :left  then middle[1..-1] + [middle.first]
-      when :right then [middle.last] + middle[0..-2]
+      when :left  then middle.rotate
+      when :right then middle.rotate(-1)
     end
 
     @cube = [bottom] + middle + [top]
@@ -54,9 +54,9 @@ class Cube
   def rotate_vertical(dir)
     bottom, *middle, top = @cube
 
-    if dir == :up
+    if dir.to_sym == :down
       bottom, top, middle[1], middle[3] = middle[1], middle[3], top, bottom
-    elsif dir == :down
+    elsif dir.to_sym == :up
       bottom, top, middle[1], middle[3] = middle[3], middle[1], bottom, top
     end
 
@@ -67,13 +67,29 @@ class Cube
     bottom, *middle, top = @cube
     shifted = Marshal.load(Marshal.dump(middle))
 
-    if dir.downcase == :left
+    if dir.to_sym == :left
       (0..3).each do |face|
         shifted[face][row_num] = middle[(face + 1) % 4][row_num]
       end
-    elsif dir.downcase == :right
+    elsif dir.to_sym == :right
       (0..3).each do |face|
         shifted[face][row_num] = middle[(face - 1) % 4][row_num]
+      end
+    end
+
+    rotation_count = case dir
+      when :left  then 1
+      when :right then 3
+    end
+
+    # Rotate face
+    if row_num == 0
+      rotation_count.times do
+        top = top.transpose.map { |row| row.reverse }
+      end
+    elsif row_num == 2
+      (4 - rotation_count).times do
+        bottom = bottom.transpose.map { |row| row.reverse }
       end
     end
 
@@ -81,6 +97,16 @@ class Cube
   end
 
   def rotate_column(column_num, dir)
+    # TODO
+    bottom, *middle, top = @cube
+    shifted = Marshal.load(Marshal.dump(middle))
+
+    if dir.to_sym == :up
+      #bottom, top, middle[1], middle[3] = middle[1], middle[3], top, bottom
+      (0..3).each do |row_num|
+        bottom[row_num][col_num] = middle
+      end
+    end
 
   end
 end
@@ -89,10 +115,12 @@ end
 
 cube = Cube.new
 
+
 # TEST HORIZONTAL CUBE ROTATION
+
 2.times do |idx|
   dir = idx == 1 ? "left" : "right"
-  print "ROTATING #{dir}"
+  puts "ROTATING CUBE #{dir}"
 
   4.times do
     cube.rotate_horizonal(dir.to_sym)
@@ -101,10 +129,12 @@ cube = Cube.new
   end
 end
 
+
 # TEST VERTICAL CUBE ROTATION
+
 2.times do |idx|
   dir = idx == 1 ? "up" : "down"
-  print "ROTATING #{dir}"
+  print "ROTATING CUBE #{dir}"
 
   4.times do
     cube.rotate_vertical(dir.to_sym)
@@ -113,12 +143,15 @@ end
   end
 end
 
-# TEST HORIZONTAL ROW ROTATION
-2.times do |idx|
-  dir = idx == 1 ? :left : :right
-  print "ROTATING row #{dir}\n"
-  4.times do
-    cube.rotate_row(1, dir)
-    cube.print_flat_cube
+# TEST HORIZONTAL ROW ROTATIONS
+0.upto(2) do |row|
+  2.times do |idx|
+    dir = idx == 1 ? :left : :right
+    print "\nROTATING ROW #{row} #{dir}\n"
+    4.times do
+      cube.rotate_row(row, dir)
+      cube.print_flat_cube
+    end
   end
 end
+
