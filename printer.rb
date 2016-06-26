@@ -5,16 +5,17 @@ module Printer
   end
 
   def draw_separator(len, offset = 0)
-      puts offset + '-' * len
+    puts offset + '-' * len
   end
+
 
   def print_cell(cell, offset: 0, top: true, bottom: true)
     width = 0
     spacing = ' ' * offset
-    cell.each do |row|
+    cell.each_with_index do |row, idx|
       current_row = draw_row(row)
-      width = current_row.length
-      draw_separator(width, spacing)
+      width = current_row.uncolorize.length
+      draw_separator(width, spacing) unless idx == 0 && !top
       puts spacing + draw_row(row)
     end
     draw_separator(width, spacing) if bottom
@@ -22,17 +23,21 @@ module Printer
 
   def print_cells(cell_blocks)
     rows_per_cell = cell_blocks.first.length - 1
+    seperator = nil
+
     0.upto(rows_per_cell) do |row_num|
       seperator = 0
-      current_row = '| '
-      cell_blocks[1..-2].each do |face|
-        current_row = face[row_num].join(' | ') + ' | '
-        seperator += current_row.length
-        print current_row
+      current_row = ['| ']
+      cell_blocks.each do |face|
+        current_row << face[row_num].join(' | ') + ' | '
       end
-      puts "\n" + '-' * seperator
+      seperator = current_row.inject(:+).uncolorize.length
+      puts '-' * seperator
+      print current_row.join('') + "\n"
     end
+      puts '-' * seperator
   end
+
 
   def print_current_face
     print "\n Current Face: \n"
@@ -40,19 +45,40 @@ module Printer
     print "\n"
   end
 
+
   def print_flat_cube
+    <<-DETAILS
+    Print a flat 2D rendition of the current Rubiks cube
+    in the following format:
+                                  TOP
+                       LEFTSIDE  FRONT   RIGHTSIDE   BACK
+                                 BOTTOM
+    DETAILS
 
-    inst = <<-DESC
-    Print a flat 2D rendition of the current cube
-    Printed in the format:
-           TOP
-     LS   FACE   RS   BACK
-         BOTTOM
-    DESC
+    print_cell(@cube.last, offset: 18, top: true, bottom: false)
+    print_cells(@cube[1..-2])
+    print_cell(@cube.first, offset: 18, top: false, bottom: true)
+  end
 
-    print_cell(@cube.last, offset: 16, bottom: false)
-    print_cells(@cube)
-    print_cell(@cube.first, offset: 16)
+
+  def print_flat_cube_vertical
+    <<-DETAILS
+    Print a flat 2D rendering of current Rubiks cube
+    in the following format:
+                                 BACK  
+                                 TOP
+                      LEFTSIDE  FRONT  RIGHTSIDE
+                                BOTTOM
+    DETAILS
+
+    print_cell(@cube[-2].map { |x| x.reverse }.reverse, offset: 18, top: true, bottom: false)
+    print_cell(@cube.last, offset: 18, top: true, bottom: false)
+    print_cell(@cube[1..-3])
+    print_cell(@cube.first, offset: 18, top: false, bottom: true)
+  end
+
+  def print_3d_cube
+    # TODO
   end
 
   def inspect_cube
