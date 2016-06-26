@@ -1,6 +1,18 @@
+require 'colorize'
 require_relative './printer.rb'
 
+class Array
+  def red;    self.map { |x| x.red }; end
+  def yellow; self.map { |x| x.yellow }; end
+  def blue;   self.map { |x| x.blue }; end
+  def white;  self.map { |x| x.white }; end
+  def green;  self.map { |x| x.green }; end
+  def cyan;   self.map { |x| x.cyan }; end
+end
+
+
 class Cube
+
   include Printer
 
   attr_accessor :cube
@@ -8,34 +20,34 @@ class Cube
   def initialize
     @cube = [
         [   #   bottom
-          ['A11', 'A21', 'A31'],
-          ['A12', 'A22', 'A32'],
-          ['A13', 'A23', 'A33']
+          ['A11', 'A21', 'A31'].red,
+          ['A12', 'A22', 'A32'].red,
+          ['A13', 'A23', 'A33'].red
         ],
         [   # left side
-          ['B11', 'B21', 'B31'],
-          ['B12', 'B22', 'B32'],
-          ['B13', 'B23', 'B33']
+          ['B11', 'B21', 'B31'].yellow,
+          ['B12', 'B22', 'B32'].yellow,
+          ['B13', 'B23', 'B33'].yellow
         ],
         [   #   front
-          ['C11', 'C21', 'C31'],
-          ['C12', 'C22', 'C32'],
-          ['C13', 'C23', 'C33']
+          ['C11', 'C21', 'C31'].blue,
+          ['C12', 'C22', 'C32'].blue,
+          ['C13', 'C23', 'C33'].blue
         ],
         [   # right side
-          ['D11', 'D21', 'D31'],
-          ['D12', 'D22', 'D32'],
-          ['D13', 'D23', 'D33']
+          ['D11', 'D21', 'D31'].white,
+          ['D12', 'D22', 'D32'].white,
+          ['D13', 'D23', 'D33'].white
         ],
         [   # backside (mirrored)
-          ['E31', 'E21', 'E11'],
-          ['E32', 'E22', 'E12'],
-          ['E33', 'E23', 'E13']
+          ['E31', 'E21', 'E11'].green,
+          ['E32', 'E22', 'E12'].green,
+          ['E33', 'E23', 'E13'].green
         ],
         [   #     top
-          ['F11', 'F21', 'F31'],
-          ['F12', 'F22', 'F32'],
-          ['F13', 'F23', 'F33']
+          ['F11', 'F21', 'F31'].cyan,
+          ['F12', 'F22', 'F32'].cyan,
+          ['F13', 'F23', 'F33'].cyan
         ],
     ]
   end
@@ -199,3 +211,5 @@ end
     end
   end
 end
+
+cube.print_flat_cube_vertical
