@@ -52,7 +52,7 @@ class Cube
     ]
   end
 
-  def rotate_horizonal(dir)
+  def rotate_horizontal(dir)
     bottom, *middle, top = @cube
 
     middle = case dir
