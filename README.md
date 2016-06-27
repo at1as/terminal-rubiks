@@ -12,6 +12,16 @@ $ ruby play.rb
 
 The only dependency is the colorize gem (`sudo gem install colorize`)
 
+## Screenshots
+
+*3D View*
+
+<img src="http://at1as.github.io/github_repo_assets/terminal-rubiks.png">
+
+*Flat View*
+
+<img src="http://at1as.github.io/github_repo_assets/terminal-rubiks-2.png">
+
 ## Usage
 
 Instructions will be printed as the game starts. The first is cube display settings:
