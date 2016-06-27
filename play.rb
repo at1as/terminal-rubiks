@@ -15,11 +15,11 @@ MOVE_HELP = <<-HELP
     `f <direction>`            (rotate cube face in the direction <direction>)
 
     Examples:
-      `r 2 left`  or `r 2 l`
-      `r 3 right` or `r 3 r`
-      `c 1 up`    or `c 1 u`
-      `c 1 down`  or `c 1 d`
-      `f up`      or `f u`
+      `row 2 left`  or    `r 2 l`
+      `row 3 right` or    `r 3 r`
+      `col 1 up`    or    `c 1 u`
+      `col 1 down`  or    `c 1 d`
+      `f up`        or    `f u`
 HELP
 
 GENERAL_HELP = <<-HELP
@@ -65,7 +65,7 @@ def main
   end
 
   while true do
-    puts "What would you like to move?"
+    print "What would you like to move?\n> "
     modify = gets
 
     # Ensure input is valid and no help flag has been triggered
@@ -86,18 +86,18 @@ def main
         if ['r', 'row'].include? modify.first.strip.downcase
           case modify[2].to_sym
             when :l, :left
-              cube.rotate_row(modify[1].to_i, :left)
+              cube.rotate_row(modify[1].to_i - 1, :left)
             when :r, :right
-              cube.rotate_row(modify[1].to_i, :right)
+              cube.rotate_row(modify[1].to_i - 1, :right)
             else
               next
           end
         elsif ['c', 'col'].include? modify.first.strip.downcase
           case modify[2].to_sym
             when :u, :up
-              cube.rotate_column(modify[1].to_i, :up)
+              cube.rotate_column(modify[1].to_i - 1, :up)
             when :d, :down
-              cube.rotate_column(modify[1].to_i, :down)
+              cube.rotate_column(modify[1].to_i - 1, :down)
             else
               next
           end
