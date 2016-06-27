@@ -43,11 +43,11 @@ To rotate the cube type any of the following
     `f <direction>`            (rotate cube face in the direction <direction>)
 
     Examples:
-      `r 2 left`  or `r 2 l`
-      `r 3 right` or `r 3 r`
-      `c 1 up`    or `c 1 u`
-      `c 1 down`  or `c 1 d`
-      `f up`      or `f u`
+      `r 2 left`  or   `r 2 l`
+      `r 3 right` or   `r 3 r`
+      `c 1 up`    or   `c 1 u`
+      `c 1 down`  or   `c 1 d`
+      `f up`      or   `f u`
 ```
 
 ### TODO
