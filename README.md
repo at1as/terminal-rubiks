@@ -6,7 +6,7 @@ Rubiks cube game for the terminal
 
 ```
 $ git clone https://github.com/at1as/terminal-rubiks.git
-$ cd terminal-rubriks
+$ cd terminal-rubiks
 $ ruby play.rb
 ```
 
@@ -44,3 +44,4 @@ To rotate the cube type any of the following
 * Shuffle cube
 * Change print display settings mid game
 * CLI feels awkward. Needs some work
+* Print cube after selecting print settings
