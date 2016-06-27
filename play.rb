@@ -10,9 +10,9 @@ HELP
 
 MOVE_HELP = <<-HELP
   To rotate the cube type any of the following
-    `r <row num> <direction>`
-    `c <col num> <direction>`
-    `f <direction>`
+    `r <row num> <direction>`  (rotate row number <row num> in the direction <direction>)
+    `c <col num> <direction>`  (rotate col number <col num> in the direction <direction>)
+    `f <direction>`            (rotate cube face in the direction <direction>)
 
     Examples:
       `r 2 left`  or `r 2 l`
@@ -82,22 +82,17 @@ def main
     
     # ROTATE COL/ROW
     if ROW_COL.include?(modify.first.strip.downcase) && modify.length == 3
-      puts "A #{modify.length}"
       if VALID_ROWS_COLS.include? modify[1].to_i
-        puts "B"
         if ['r', 'row'].include? modify.first.strip.downcase
-          puts "C"
           case modify[2].to_sym
             when :l, :left
               cube.rotate_row(modify[1].to_i, :left)
             when :r, :right
               cube.rotate_row(modify[1].to_i, :right)
             else
-              puts "CC"
               next
           end
         elsif ['c', 'col'].include? modify.first.strip.downcase
-          puts "D #{modify[1]}"
           case modify[2].to_sym
             when :u, :up
               cube.rotate_column(modify[1].to_i, :up)
@@ -107,7 +102,6 @@ def main
               next
           end
         else
-          puts "E"
           next
         end
 
@@ -130,7 +124,7 @@ def main
     else
       next
     end
-    puts "F"
+    
     cube_printer(cube, print_type.to_i)
   end
 end
