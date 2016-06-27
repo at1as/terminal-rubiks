@@ -71,27 +71,29 @@ module Printer
                                 BOTTOM
     DETAILS
 
-    print_cell(@cube[-2].map { |x| x.reverse }.reverse, offset: 18, top: true, bottom: false)
+    back = @cube[-2].clone.map { |x| x.reverse }.reverse
+
+    print_cell(back, offset: 18, top: true, bottom: false)
     print_cell(@cube.last, offset: 18, top: true, bottom: false)
-    print_cell(@cube[1..-3])
+    print_cells(@cube[1..-3])
     print_cell(@cube.first, offset: 18, top: false, bottom: true)
   end
 
   def print_3d_cube
 
-    front, top, side = @cube[1], @cube[2], @cube[5]
+    front, side, top = @cube[1], @cube[2], @cube[5]
     f = front.flatten
-    t = top.flatten
     s = side.flatten
+    t = top.flatten
     
     cube = <<-CUBE
         -------------------------- \\
        / #{t[0]}  / #{t[1]}   /  #{t[2]}   /    | 
-      /      /       /        /     |
-     /---------------------- +  #{s[2]}/|
-    / #{t[3]}  / #{t[4]}   /  #{t[5]}  /  |   / |
-   /      /       /       /   |  /  |
-  /----------------------- #{s[1]}| /   |
+      /      /       /        / #{s[2]} |
+     /---------------------- +\\    /|
+    / #{t[3]}  / #{t[4]}   /  #{t[5]}   /  |  / |
+   /      /       /        /   | /  |
+  /-----------------------+ #{s[1]}|/   |
  /  #{t[6]}  / #{t[7]}   /  #{t[8]}  / |  /| #{s[5]}|
 /       /       /       /  | / |   /|
 +----------------------- #{s[0]}/  |  / |
